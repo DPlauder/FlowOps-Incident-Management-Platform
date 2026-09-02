@@ -1,0 +1,22 @@
+node_modules/
+.next/
+out/
+dist/
+
+.env
+.env.local
+.env.*.local
+
+*.log
+
+.DS_Store
+Thumbs.db
+
+.vinext/
+.wrangler/
+
+# TypeScript
+*.tsbuildinfo
+
+# Cloudflare generated types
+worker-configuration.d.ts

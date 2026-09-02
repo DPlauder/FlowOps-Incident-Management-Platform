@@ -1,0 +1,24 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "flowops",
+	"compatibility_date": "2026-09-02",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"main": "vinext/server/fetch-handler",
+	"assets": {
+		"directory": "dist/client",
+		"not_found_handling": "none",
+		"binding": "ASSETS"
+	},
+	"cache": {
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "flowops_db",
+			"database_name": "flowops-db",
+			"database_id": "9925635d-aa50-4e15-b040-af9484f1218b"
+		}
+	]
+}
