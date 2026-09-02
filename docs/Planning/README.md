@@ -25,3 +25,9 @@ Dieser Ordner enthält die verbindlichen Planungsgrundlagen fuer den FlowOps-MVP
 - [ADR-005: Multi-Tenant Architecture](03-Architecture/ADR/ADR-005-Multi-Tenant-Architecture.md)
 - [ADR-006: Session Management](03-Architecture/ADR/ADR-006-Session-Management.md)
 - [ADR-007: Multi-Organization Membership](03-Architecture/ADR/ADR-007-Multi-Organization-Membership.md)
+
+## Implementierung
+
+- [Definition of Done](04-Implementation/Definition-of-Done.md)
+- [Definition of Ready](04-Implementation/Definition-of-Ready.md)
+- [Planung](04-Implementation/planung.md)
