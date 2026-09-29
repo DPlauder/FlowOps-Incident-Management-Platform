@@ -97,6 +97,14 @@ dist/server/wrangler.json
 
 Der Production-Deploy wird erst nach erfolgreichem Quality Gate durchgeführt.
 
+### Öffentliche Worker-Adresse
+
+Für einen öffentlichen Production-Deploy muss für den Cloudflare Worker eine erreichbare Route beziehungsweise eine Workers.dev-Adresse konfiguriert sein.
+
+Während der ersten Deployment-Ausführung war noch keine öffentliche Worker-Route verfügbar. Nach der Einrichtung der Workers.dev-Subdomain konnte der Production-Deploy erfolgreich durchgeführt werden.
+
+Die konkrete öffentliche Adresse wird nicht als feste Projektkonfiguration in dieser Dokumentation hinterlegt, da sie Bestandteil der Cloudflare-Umgebung ist.
+
 ---
 
 ## 6. Datenbank-Migrationen
@@ -231,7 +239,7 @@ Production-Datenbankmigrationen sind kein Bestandteil dieses CI-Testlaufs.
 
 Sprint 0 stellt die technische Grundlage für den späteren Release-Prozess bereit.
 
-Bereits verifiziert:
+### Bereits verifiziert
 
 * lokaler Build funktioniert
 * TypeScript Typecheck funktioniert
@@ -241,14 +249,38 @@ Bereits verifiziert:
 * D1-Testverbindung funktioniert
 * Vinext Production Build funktioniert
 * CI enthält die Quality Gates
+* erzeugter Worker kann lokal gestartet werden
+* lokaler Production Health Check funktioniert
+* initiale Remote-D1-Migration wurde erfolgreich ausgeführt
+* Cloudflare Worker wurde erfolgreich deployed
+* Production Health Check funktioniert
+* Production Worker kann auf die Remote-D1-Datenbank zugreifen
+* Remote-Datenbank ist nach dem Deployment auf dem aktuellen Migrationsstand
 
-Noch nicht Bestandteil des abgeschlossenen Sprint-0-Release-Prozesses:
+### Tatsächlich verifizierter Deployment-Ablauf
 
-* vollständiger Production Smoke Test der fertigen MVP-Anwendung
-* automatisierte E2E-Tests
-* produktiver Rollback-Test
-* vollständiger Incident-Lifecycle im Production-System
-* finale Production-Konfiguration und Secrets
-* Release der vollständigen MVP-Anwendung
+Der technische Sprint-0-Deployment-Ablauf wurde vollständig ausgeführt:
 
-Diese Punkte werden mit der Implementierung der entsprechenden Funktionen weiter konkretisiert.
+```text
+Quality Gate
+    ↓
+Production Build
+    ↓
+Remote Database Migration
+    ↓
+Cloudflare Worker Deployment
+    ↓
+Production Health Check
+    ↓
+Remote Migration Verification
+
+```
+
+Der Production Health Check liefert:
+
+```
+{
+  "status": "ok",
+  "database": "connected"
+}
+```
