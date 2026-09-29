@@ -170,6 +170,61 @@ Und schreibe:
 
 Das ist eine sehr gute Midlevel-Signalwirkung.
 
+### $${\color{red}Technische Anpassung während Sprint 0}$$
+
+Die ursprüngliche Planung sah für das Backend Hono vor. Während der tatsächlichen technischen Umsetzung wurde die Architektur jedoch angepasst.
+
+Die ursprüngliche Planung war:
+
+```text
+React / Next.js
+      ↓
+    Hono
+      ↓
+Cloudflare Workers
+      ↓
+      D1
+```
+
+Im Verlauf von Sprint 0 wurde die technische Basis auf **vinext/Vite mit Cloudflare Workers** angepasst:
+
+```text
+Next.js Application
+      ↓
+     vinext
+      ↓
+Cloudflare Workers
+      ↓
+      D1
+```
+
+Die Datenbank und das grundlegende Cloudflare-Ziel blieben dabei unverändert. Die Anpassung betrifft vor allem die Art, wie die Next.js-Anwendung für die Cloudflare-Worker-Laufzeit gebaut und ausgeführt wird.
+
+Diese Änderung wurde nicht nachträglich als ursprüngliche Architektur dargestellt, sondern bewusst als Teil der tatsächlichen Entwicklung dokumentiert.
+
+**Warum wurde die Architektur angepasst?**
+
+Die ursprüngliche Hono-Planung war eine sinnvolle Option für eine getrennte API-Schicht. Während der technischen Umsetzung zeigte sich jedoch, dass die gewählte Next.js-Anwendungsstruktur zusammen mit vinext und Cloudflare Workers eine passendere Grundlage für das Projekt bildet.
+
+Damit wurde die Architektur von der ursprünglichen Planung an die tatsächlich funktionierende technische Umgebung angepasst.
+
+**Wichtig:** Die Änderung bedeutet nicht, dass die ursprüngliche Planung falsch war. Sie zeigt vielmehr, dass Architekturentscheidungen während der Implementierung anhand realer technischer Erkenntnisse überprüft und gegebenenfalls angepasst werden.
+
+Die finale technische Grundlage von Sprint 0 umfasst damit:
+
+* Next.js / React
+* vinext / Vite
+* Cloudflare Workers
+* Cloudflare D1
+* TypeScript
+* Vitest
+* Cloudflare Vitest Plugin
+* GitHub Actions
+* Cloudflare Workers Deployment
+
+Diese Anpassung wird in den weiteren Artikeln nicht als theoretische Architekturentscheidung, sondern als tatsächlich während der Implementierung entstandene Änderung behandelt.
+
+
 ## WEEK 05 — Authentication & authorization
 
 Jetzt baust du Login.

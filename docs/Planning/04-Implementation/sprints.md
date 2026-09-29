@@ -27,6 +27,7 @@ Die folgenden Sprints bauen grundsätzlich aufeinander auf. Einzelne technische 
 
 ---
 
+
 # Sprint 0 – Foundation
 
 ## User Stories
@@ -37,23 +38,107 @@ Sprint 0 ist bewusst von den fachlichen User Stories getrennt.
 
 ## Ziel
 
-Eine leere, aber technisch funktionierende Projektbasis, auf der die folgenden Sprints umgesetzt werden können.
+Eine technisch funktionierende und reproduzierbare Projektbasis schaffen, auf der die folgenden fachlichen Sprints umgesetzt werden können.
+
+Neben der lokalen Entwicklungsumgebung werden bereits die grundlegenden Mechanismen für Qualitätssicherung, automatisierte Tests, CI und Deployment eingerichtet.
 
 ## Inhalt
 
-- Repository und Projektstruktur vorbereiten
-- Entwicklungsumgebung einrichten
-- Grundlegende Projektkonfiguration erstellen
-- Abhängigkeiten und Build-Prozess einrichten
-- Entwicklungs- und Produktionsumgebung vorbereiten
-- Grundlegende Code-Struktur festlegen
-- Basis für spätere Tests und CI schaffen
+* Repository und Projektstruktur vorbereiten
+* Entwicklungsumgebung einrichten
+* grundlegende Projektkonfiguration erstellen
+* Abhängigkeiten und Build-Prozess einrichten
+* TypeScript und Linting konfigurieren
+* Entwicklungs- und Produktionsumgebung vorbereiten
+* Cloudflare Workers als Laufzeitumgebung einrichten
+* Cloudflare D1 anbinden
+* Datenbankmigration für das initiale Schema erstellen
+* grundlegende API-Struktur mit Health Check erstellen
+* Unit- und Integrationstests einrichten
+* Cloudflare Vitest Plugin integrieren
+* CI mit GitHub Actions einrichten
+* automatisierten Typecheck und Testlauf in CI etablieren
+* reproduzierbaren Produktions-Build einrichten
+* Deployment auf Cloudflare Workers vorbereiten und durchführen
+* Remote-Datenbankmigration durchführen
+* Production Health Check durchführen
+
+## Technische Anpassung
+
+Die ursprüngliche Architekturplanung sah eine separate Hono-API vor.
+
+Während der Umsetzung von Sprint 0 wurde die technische Basis angepasst. Die Anwendung wird nun über vinext/Vite für die Cloudflare-Workers-Laufzeit gebaut und ausgeführt.
+
+Die finale technische Grundlage besteht damit aus:
+
+```text
+Next.js / React
+       ↓
+   vinext / Vite
+       ↓
+Cloudflare Workers
+       ↓
+Cloudflare D1
+```
+
+Die Anpassung wurde während der tatsächlichen Implementierung vorgenommen und stellt eine Weiterentwicklung der ursprünglichen Architekturplanung dar.
+
+## Qualitätssicherung
+
+Sprint 0 etabliert bereits einen technischen Quality Gate für das Projekt.
+
+Die lokale Prüfung umfasst:
+
+```text
+Lint
+  ↓
+Typecheck
+  ↓
+Unit Tests
+  ↓
+Integration Tests
+  ↓
+Production Build
+```
+
+Diese Prüfungen werden zusätzlich über GitHub Actions automatisiert ausgeführt.
+
+Damit ist bereits vor der Implementierung der ersten fachlichen User Stories ein reproduzierbarer Entwicklungs- und Prüfprozess vorhanden.
+
+## Deployment
+
+Die technische Grundlage wurde nicht nur lokal verifiziert, sondern auch als Cloudflare Worker deployed.
+
+Der Deployment-Prozess umfasst:
+
+```text
+Source Code
+    ↓
+CI
+    ↓
+Production Build
+    ↓
+Database Migration
+    ↓
+Cloudflare Worker Deployment
+    ↓
+Production Health Check
+```
+
+Die Production-Instanz wurde erfolgreich deployed und der Health Check bestätigt sowohl die Erreichbarkeit des Workers als auch die Verbindung zur Cloudflare-D1-Datenbank.
 
 ## Ergebnis
 
-Am Ende des Sprints lässt sich das Projekt lokal starten, bauen und weiterentwickeln.
+Sprint 0 liefert eine reproduzierbare technische Grundlage für FlowOps.
 
-Es existiert noch keine fachliche FlowOps-Funktionalität.
+Das Projekt lässt sich lokal entwickeln, testen und bauen. Die Cloudflare-D1-Datenbank ist angebunden und über eine Migration reproduzierbar aufgebaut. Unit- und Integrationstests werden ausgeführt und über CI automatisiert geprüft.
+
+Darüber hinaus kann die Anwendung als Cloudflare Worker deployed werden. Ein Production Health Check bestätigt die Erreichbarkeit der Anwendung und die Verbindung zur D1-Datenbank.
+
+Es existiert weiterhin noch keine fachliche FlowOps-Funktionalität wie Registrierung, Login, Organisationen, Services oder Incident-Management.
+
+Diese Funktionalitäten werden in den folgenden Sprints implementiert.
+
 
 ---
 
