@@ -31,5 +31,11 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Run integration tests
+        run: npm run test:integration
+
       - name: Build
         run: npm run build:vinext
