@@ -1,7 +1,7 @@
-## Zugehörige User Stories
+﻿## Zugehörige User Story
 
-<!-- Beispiel: US-001 – Account erstellen -->
-- US-XXX:
+- User Story: US-XXX – Titel
+- GitHub Issue: #XXX
 
 ## Änderungen
 
@@ -9,21 +9,27 @@
 
 ## Akzeptanzkriterien
 
-- [ ] Die relevanten Akzeptanzkriterien der User Story sind erfüllt.
-- [ ] Die Umsetzung entspricht den fachlichen und technischen Anforderungen.
+- [ ] Alle relevanten Akzeptanzkriterien der User Story sind erfüllt.
+- [ ] Fachliche und technische Anforderungen sind berücksichtigt.
+- [ ] Fehler- und Sicherheitsfälle sind berücksichtigt.
 
 ## Tests
 
 - [ ] Unit-Tests ergänzt oder angepasst
 - [ ] Integrationstests ergänzt oder angepasst
-- [ ] Relevante Fehler- und Sicherheitsfälle geprüft
-- [ ] Alle erforderlichen CI-Prüfungen erfolgreich
+- [ ] `npm run lint` erfolgreich
+- [ ] `npx tsc --noEmit` erfolgreich
+- [ ] `npm run test` erfolgreich
+- [ ] `npm run test:integration` erfolgreich
+- [ ] `npm run build:vinext` erfolgreich
 
 ## Dokumentation
 
-- [ ] Relevante technische Dokumentation aktualisiert
-- [ ] Offene Punkte und bekannte Einschränkungen dokumentiert
+- [ ] Relevante technische Dokumentation aktualisiert.
+- [ ] Offene Punkte und bekannte Einschränkungen dokumentiert.
 
 ## Abschluss
 
-<!-- Issue erst nach vollständiger Umsetzung schließen. -->
+<!-- Den Issue-Verweis prüfen.
+     "Closes #XXX" nur verwenden, wenn dieser PR
+     die gesamte User Story abschließt. -->
