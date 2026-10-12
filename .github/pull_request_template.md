@@ -1,4 +1,6 @@
-﻿## Zugehörige User Story
+
+@'
+## Zugehörige User Story
 
 - User Story: US-XXX – Titel
 - GitHub Issue: #XXX
@@ -30,6 +32,8 @@
 
 ## Abschluss
 
-<!-- Den Issue-Verweis prüfen.
+<!-- Den zugehörigen Issue-Verweis prüfen.
      "Closes #XXX" nur verwenden, wenn dieser PR
      die gesamte User Story abschließt. -->
+'@ | Set-Content -Path .github/pull_request_template.md -Encoding utf8
+cle
