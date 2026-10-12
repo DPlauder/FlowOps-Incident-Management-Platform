@@ -550,7 +550,7 @@ Before Sprint 1 begins, the following must be completed:
 - [ ] Critical risks are addressed or explicitly accepted
 - [ ] Blocking open questions are resolved
 - [ ] Sprint scope is defined
-- [ ] Definition of Done is defined
+- [x] Definition of Done is defined
 
 ## 21. Current Status
 
@@ -568,7 +568,7 @@ Before Sprint 1 begins, the following must be completed:
 | Risk Register          | In Progress |
 | Open Questions         | In Progress |
 | Definition of Ready    | Completed   |
-| Definition of Done     | Pending     |
+| Definition of Done     | Completed   |
 | Sprint Planning        | Pending     |
 | Implementation         | Not Started |
 
