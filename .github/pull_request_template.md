@@ -36,4 +36,3 @@
      "Closes #XXX" nur verwenden, wenn dieser PR
      die gesamte User Story abschließt. -->
 '@ | Set-Content -Path .github/pull_request_template.md -Encoding utf8
-cle
