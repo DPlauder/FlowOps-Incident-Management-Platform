@@ -189,17 +189,15 @@ Passwords must never be stored in plain text.
 
 Only a secure password hash is stored in the database.
 
-The application must use a modern password hashing algorithm suitable for password storage.
+The application uses **PBKDF2-HMAC-SHA-256** with **600,000 iterations** via the native Web Crypto API (`crypto.subtle`), adhering to OWASP recommendations.
 
-The exact implementation will be decided before authentication is implemented.
-
-Passwords must never appear in:
-
-- API responses
-- logs
-- error messages
-- database records in plain text
-- client-side application state
+Technical specifications:
+- **Algorithm:** PBKDF2 with HMAC-SHA-256 (Web Crypto API)
+- **Work factor:** 600,000 iterations
+- **Salt:** 32 cryptographically secure random bytes
+- **Minimum password length:** 12 characters (enforced server-side)
+- **Storage format:** `pbkdf2:sha256:<iterations>:<salt>:<hash>`
+- **Reference:** See `ADR-008-Password-Hashing.md` for architectural decision and trade-off analysis.
 
 ## 6. Session Security
 
@@ -972,7 +970,7 @@ These risks are tracked in the project risk documentation.
 
 The following decisions must be finalized before authentication is implemented:
 
-- Password hashing algorithm
+- [x] Password hashing algorithm (PBKDF2-HMAC-SHA-256, ADR-008)
 - Session identifier format
 - Session cleanup strategy
 - SameSite cookie configuration
