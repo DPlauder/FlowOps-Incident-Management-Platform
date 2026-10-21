@@ -2,7 +2,7 @@ import { env } from "cloudflare:workers";
 import { beforeAll, describe, expect, it } from "vitest";
 import { POST } from "../../src/app/api/auth/register/route";
 import { SESSION_COOKIE_NAME } from "../../src/lib/session";
-import schemaSql from "../../migrations/0001_initial_schema.sql?raw";
+import { runMigrations } from "../helpers/migrate";
 
 function createJsonRequest(body: unknown): Request {
   
@@ -18,16 +18,7 @@ function createJsonRequest(body: unknown): Request {
 
 describe("POST /api/auth/register", () => {
     beforeAll(async () => {
-    const normalizedSql = schemaSql.replace(/\r\n/g, "\n");
-    // Aufteilen in einzelne Statements und leere Einträge ignorieren
-    const statements = normalizedSql
-      .split(";")
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0);
-
-    for (const statement of statements) {
-      await env.flowops_db.prepare(statement).run();
-    }
+    await runMigrations(env.flowops_db);
   });
 
   it("erstellt einen neuen Benutzer und eine Session (Happy Path)", async () => {
