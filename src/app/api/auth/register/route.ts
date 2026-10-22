@@ -1,103 +1,63 @@
 import { env } from "cloudflare:workers";
 import { NextResponse } from "next/server";
-import { hashPassword, validatePassword } from "../../../../lib/password";
-import { createSession, generateSessionToken, SESSION_COOKIE_NAME } from "../../../../lib/session";
-// Hilfsfunktion zur einfachen Validierung des E-Mail-Formats
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+import type { RegisterInput } from "../../../../server/auth/register.types";
+import {
+  RegistrationConflictError,
+  registerUser,
+} from "../../../../server/auth/register.service";
+import { setSessionCookie } from "../../../../server/auth/session.cookie";
+import { validateRegisterInput } from "../../../../server/auth/register.validation";
+
+function jsonError(message: string, status: number): NextResponse {
+  return NextResponse.json({ error: message }, { status });
 }
 
-export async function POST(request: Request) {
-    try {
-        const body = await request.json();
-        if(!body || typeof body !== "object") {
-            return NextResponse.json(
-                { error: "Ungültige Anfrage" },
-                { status: 400 }
-            );
-        }
-        const { email, password, displayName } = body as Record<string, unknown>;
-        if(
-            typeof email !== "string" ||
-            typeof password !== "string" ||
-            typeof displayName !== "string" ||
-            !displayName.trim()
-        ) {
-            return NextResponse.json(
-                { error: "Name, E-Mail und Passwort sind erforderlich." },
-                { status: 400 }
-            );
-        }
-        
-        const normalizedEmail = email.toLowerCase().trim();
-        if(!isValidEmail(normalizedEmail)) {
-            return NextResponse.json(
-                { error: "Ungültige E-Mail-Adresse" },
-                { status: 400 }
-            );
-        }
+export async function POST(request: Request): Promise<Response> {
+  let body: unknown;
 
-        const passwordError = validatePassword(password);
-        if(passwordError) {
-            return NextResponse.json(
-                { error: passwordError },
-                { status: 400 }
-            );
-        }
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError("Ungültige Anfrage", 400);
+  }
 
-        const db = env.flowops_db;
-        
-        const existingUser = await db.prepare("SELECT id FROM users WHERE email = ?").bind(normalizedEmail).first<{ id: string }>();
-        if(existingUser) {
-            return NextResponse.json(
-                { error: "Registrierung konnte nicht durchgeführt werden." },
-                { status: 400 }
-            );
-        }
+  let input: RegisterInput;
 
-        const passwordHash = await hashPassword(password);
-
-        const userId = crypto.randomUUID();
-        const now = new Date().toISOString();
-        const trimmedDisplayName = displayName.trim();
-
-        await db.prepare("INSERT INTO users (id, email, password_hash, display_name, is_active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)").bind(
-            userId,
-            normalizedEmail,
-            passwordHash,
-            trimmedDisplayName,
-            1,
-            now,
-            now
-        ).run();
-
-        const sessionToken = generateSessionToken();
-        await createSession(db, userId, sessionToken);
-
-        const response = NextResponse.json(
-            { 
-                id: userId,
-                email: normalizedEmail,
-                displayName: trimmedDisplayName 
-            },
-            {status: 201}
-        );
-        const isProduction = process.env.NODE_ENV === "production";
-        const maxAgeSeconds = 30 * 24 * 60 * 60; // 30 Tage
-
-        response.cookies.set(SESSION_COOKIE_NAME, sessionToken, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: "lax",
-            maxAge: maxAgeSeconds,
-            path: "/"
-        });
-        return response;
-    } catch (error){
-        console.error("Registrierung fehlgeschlagen:", error);
-        return NextResponse.json(
-            { error: "Interner Serverfehler aufgetreten." },
-            { status: 500 }
-        );
+  try {
+    input = validateRegisterInput(body);
+  } catch (error) {
+    if (error instanceof Error) {
+      return jsonError(error.message, 400);
     }
+
+    console.error("Unbekannter Validierungsfehler bei der Registrierung:", error);
+    return jsonError("Interner Serverfehler aufgetreten.", 500);
+  }
+
+  try {
+    const registeredUser = await registerUser(env.flowops_db, input);
+
+    const response = NextResponse.json(
+      {
+        id: registeredUser.id,
+        email: registeredUser.email,
+        displayName: registeredUser.displayName,
+      },
+      { status: 201 },
+    );
+
+    setSessionCookie(response, registeredUser.sessionToken);
+
+    return response;
+  } catch (error) {
+    if (error instanceof RegistrationConflictError) {
+      return jsonError(
+        "Registrierung konnte nicht durchgeführt werden.",
+        400,
+      );
+    }
+
+    console.error("Registrierung fehlgeschlagen:", error);
+    return jsonError("Interner Serverfehler aufgetreten.", 500);
+  }
 }
