@@ -2,21 +2,8 @@ import type { D1Database } from "@cloudflare/workers-types";
 import { hashPassword } from "../../lib/password";
 import { createUserSession } from "../../server/auth/session.service";
 import type { RegisterInput, RegisteredUser } from "./register.types";
-
-
-export class RegistrationConflictError extends Error {
-  constructor() {
-    super("Registration conflict");
-    this.name = "RegistrationConflictError";
-  }
-}
-
-function isEmailUniqueConstraintError(error: unknown): boolean {
-  return (
-    error instanceof Error &&
-    /unique constraint failed: users\.email/i.test(error.message)
-  );
-}
+import { RegistrationConflictError } from "./auth.errors";
+import { isEmailUniqueConstraintError } from "./auth.errors";
 
 export async function registerUser(
   db: D1Database,
