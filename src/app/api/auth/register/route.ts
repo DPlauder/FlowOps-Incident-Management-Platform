@@ -1,12 +1,10 @@
 import { env } from "cloudflare:workers";
 import { NextResponse } from "next/server";
 import type { RegisterInput } from "../../../../server/auth/register.types";
-import {
-  RegistrationConflictError,
-  registerUser,
-} from "../../../../server/auth/register.service";
+import {registerUser} from "../../../../server/auth/register.service";
 import { setSessionCookie } from "../../../../server/auth/session.cookie";
 import { validateRegisterInput } from "../../../../server/auth/register.validation";
+import { RegistrationConflictError } from "../../../../server/auth/auth.errors";
 
 function jsonError(message: string, status: number): NextResponse {
   return NextResponse.json({ error: message }, { status });
