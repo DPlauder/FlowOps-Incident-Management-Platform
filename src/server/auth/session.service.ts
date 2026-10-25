@@ -4,6 +4,7 @@ import {
   generateSessionToken,
   hashSessionToken,
 } from "../../lib/session";
+import type { SafeUser } from "../users/user.types";
 
 
 
@@ -34,4 +35,27 @@ export async function revokeUserSession(
     .prepare("DELETE FROM sessions WHERE id = ?")
     .bind(sessionId)
     .run();
+}
+
+export async function getSafeUser(
+  db: D1Database,
+  token: string | null,
+): Promise<SafeUser | null> {
+  if (!token) {
+    return null;
+  }
+
+  const sessionId = await hashSessionToken(token);
+
+  return db
+    .prepare(
+      `SELECT users.id, users.email, users.display_name AS displayName
+       FROM sessions
+       JOIN users ON users.id = sessions.user_id
+       WHERE sessions.id = ?
+         AND sessions.expires_at > ?
+         AND users.is_active = 1`,
+    )
+    .bind(sessionId, new Date().toISOString())
+    .first<SafeUser>();
 }
