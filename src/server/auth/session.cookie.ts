@@ -17,3 +17,15 @@ export function setSessionCookie(
     path: "/",
   });
 }
+
+export function clearSessionCookie(response: NextResponse): void {
+  const isProduction = process.env.NODE_ENV === "production";
+  response.cookies.set(SESSION_COOKIE_NAME, "", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: "lax",
+    maxAge: 0,
+    expires: new Date(0),
+    path: "/",
+  });
+}
