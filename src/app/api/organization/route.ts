@@ -26,7 +26,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     return jsonError("Ungültige Anfrage.", 400);
   }
 
-  let input;
+  let input: { name: string };
 
   try {
     input = validateCreateOrganizationInput(body);
