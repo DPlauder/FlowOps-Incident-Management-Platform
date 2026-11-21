@@ -117,9 +117,9 @@ Acceptance Criteria:
 
 Benutzer kann einer vorgesehenen Organisation beitreten.
 Ein Benutzer kann mehreren Organisationen angehören.
-Für den Benutzer wird eine Membership mit dem Status **ACTIVE** angelegt.
-Die Membership erhält eine definierte organisationsbezogene Rolle.
-Benutzer kann anschließend auf die für ihn freigegebenen Organisationsdaten zugreifen.
+Für den Benutzer wird zunächst eine Membership mit dem Status **PENDING** angelegt.
+Die Membership erhält die Rolle **MEMBER**.
+Benutzer kann erst nach Genehmigung auf die für ihn freigegebenen Organisationsdaten zugreifen.
 
 ### US-007 – Organisationsdaten voneinander trennen
 

@@ -1,11 +1,11 @@
 import { env } from "cloudflare:workers";
 import { NextResponse } from "next/server";
-import { requireAuth } from "../../../server/auth/require-auth";
+import { requireAuth } from "../../../../server/auth/require-auth";
 import {
   createOrganization,
   OrganizationConflictError,
-} from "../../../server/organizations/organization.service";
-import { validateCreateOrganizationInput } from "../../../server/organizations/organization.validation";
+} from "../../../../server/organizations/organization.service";
+import { validateCreateOrganizationInput } from "../../../../server/organizations/organization.validation";
 
 function jsonError(message: string, status: number): NextResponse {
   return NextResponse.json({ error: message }, { status });
@@ -26,7 +26,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     return jsonError("Ungültige Anfrage.", 400);
   }
 
-  let input: { name: string };
+  let input;
 
   try {
     input = validateCreateOrganizationInput(body);

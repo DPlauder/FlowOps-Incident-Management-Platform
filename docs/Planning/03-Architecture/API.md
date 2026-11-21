@@ -579,6 +579,14 @@ according to the applicable organization membership rules.
 The organizationId must never be used to bypass authorization or tenant
 isolation.
 
+Eine erfolgreiche Beitrittsanfrage erstellt eine Membership mit:
+
+- Rolle `MEMBER`
+- Status `PENDING`
+
+Eine `PENDING`-Membership gewährt noch keinen Zugriff auf Organisationsdaten.
+Die Aktivierung erfolgt durch den späteren Membership-Genehmigungsprozess.
+
 ## User Endpoints
 
 User management is scoped to the authenticated organization.
@@ -1195,7 +1203,7 @@ is an allowed filter.
 
 ## Pagination
 
-Collection endpoints should support pagination.
+Collection endpoints that may return a large number of resources must support pagination.
 
 The initial API uses:
 
@@ -1712,7 +1720,3 @@ Consistent API Response
 The API is intentionally kept small for the MVP.
 
 The goal is not to expose every possible operation, but to provide a clear and secure API surface that supports the core FlowOps workflow.
-
-```
-
-```
