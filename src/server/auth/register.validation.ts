@@ -1,8 +1,8 @@
 import {validatePassword} from "../../lib/password";
 import { RegisterInput } from "./register.types";
 
-const MAX_EMAIL_LENGTH = 254;
-const MAX_PASSWORD_LENGTH = 256;
+const MAX_EMAIL_LENGTH = 255;
+const MAX_PASSWORD_LENGTH = 255;
 const MAX_DISPLAY_NAME_LENGTH = 150;
 
 function isRecord(value: unknown): value is Record<string, unknown> {

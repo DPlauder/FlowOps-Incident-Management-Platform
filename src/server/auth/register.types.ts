@@ -5,7 +5,7 @@ export type RegisterInput = {
 };
 
 export type RegisteredUser = {
-    id:string,
+    id: string,
     email: string,
     displayName: string,
     sessionToken: string
