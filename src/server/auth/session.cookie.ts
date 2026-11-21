@@ -29,3 +29,22 @@ export function clearSessionCookie(response: NextResponse): void {
     path: "/",
   });
 }
+
+export function readSessionToken(request: Request): string | null {
+  const cookieHeader = request.headers.get("cookie");
+
+  if (!cookieHeader) {
+    return null;
+  }
+
+  const cookiePrefix = `${SESSION_COOKIE_NAME}=`;
+
+  const sessionCookie = cookieHeader
+    .split(";")
+    .map((cookie) => cookie.trim())
+    .find((cookie) => cookie.startsWith(cookiePrefix));
+
+  return sessionCookie
+    ? sessionCookie.slice(cookiePrefix.length)
+    : null;
+}
