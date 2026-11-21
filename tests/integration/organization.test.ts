@@ -1,7 +1,7 @@
 import { env } from "cloudflare:workers";
 import { beforeAll, describe, expect, it } from "vitest";
 import { POST as registerHandler } from "../../src/app/api/auth/register/route";
-import { POST as organizationHandler } from "../../src/app/api/organization/route";
+import { POST as organizationHandler } from "../../src/app/api/organization/(create)/route";
 import { SESSION_COOKIE_NAME } from "../../src/lib/session";
 import { runMigrations } from "../helpers/migrate";
 

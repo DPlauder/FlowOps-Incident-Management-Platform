@@ -174,12 +174,13 @@ The initial MVP supports the following roles:
 
 ### Membership Status
 
-The initial MVP supports the following membership statuses:
+Das MVP unterstützt folgende Membership-Status:
 
-| Status       | Meaning                                                      |
-| ------------ | ------------------------------------------------------------ |
-| **ACTIVE**   | The membership grants access according to the assigned role. |
-| **DISABLED** | The membership is retained, but access is disabled.          |
+| Status       | Bedeutung |
+| ------------ | --------- |
+| **PENDING**  | Beitritt wurde angefragt, Zugriff ist noch nicht freigegeben. |
+| **ACTIVE**   | Membership ist genehmigt und gewährt Zugriff entsprechend der Rolle. |
+| **DISABLED** | Membership bleibt erhalten, Zugriff ist deaktiviert. |
 
 ### Constraints
 
