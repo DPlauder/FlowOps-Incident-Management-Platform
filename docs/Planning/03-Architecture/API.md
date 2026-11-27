@@ -587,6 +587,82 @@ Eine erfolgreiche Beitrittsanfrage erstellt eine Membership mit:
 Eine `PENDING`-Membership gewährt noch keinen Zugriff auf Organisationsdaten.
 Die Aktivierung erfolgt durch den späteren Membership-Genehmigungsprozess.
 
+### Membership-Anfragen anzeigen
+
+GET /api/organization/membership-requests?organizationId=<organizationId>
+
+Returns pending membership requests for the specified organization.
+
+The authenticated user must have an `ACTIVE` membership with the role
+`OWNER` or `ADMIN` in the requested organization.
+
+The `organizationId` is only used to identify the target organization.
+It does not grant access by itself. The server must validate the user's
+membership before returning any requests.
+
+Successful Response:
+
+```json
+{
+  "items": [
+    {
+      "membershipId": "membership-id",
+      "organizationId": "organization-id",
+      "userId": "user-id",
+      "email": "user@example.com",
+      "displayName": "Max Mustermann",
+      "role": "MEMBER",
+      "status": "PENDING",
+      "createdAt": "2026-11-27T13:00:00.000Z"
+    }
+  ]
+}
+```
+
+PATCH /api/organization/membership-requests?organizationId=<organizationId>
+
+Approves a pending membership request.
+
+Request:
+```json
+{
+  "membershipId": "membership-id"
+}
+```
+The authenticated user must have an ACTIVE membership with the role
+OWNER or ADMIN in the requested organization.
+
+Only the following status transition is allowed:
+
+```json
+{
+  PENDING → ACTIVE
+}
+```
+
+The approved membership keeps the role MEMBER.
+
+A membership belonging to another organization must not be modified.
+
+Successful Response:
+```json
+{
+  "membershipId": "membership-id",
+  "organizationId": "organization-id",
+  "userId": "user-id",
+  "role": "MEMBER",
+  "status": "ACTIVE"
+}
+```
+
+Possible Errors:
+
+- `400` when `organizationId` or `membershipId` is missing or invalid
+- `401` when authentication is missing
+- `403` when the user is not an active `OWNER` or `ADMIN`
+- `404` when the membership does not exist in the requested organization
+- `409` when the membership is not in `PENDING` status
+
 ## User Endpoints
 
 User management is scoped to the authenticated organization.
