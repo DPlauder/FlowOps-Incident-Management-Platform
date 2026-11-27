@@ -34,7 +34,7 @@ FlowOps follows these principles:
 6. Client-provided organization identifiers must never be trusted without server-side membership validation.
 7. Role checks are performed server-side.
 8. Membership status is evaluated before role permissions.
-9. Disabled memberships cannot access organization resources.
+9. Disabled and Pending memberships cannot access organization resources.
 10. Business rules are evaluated in addition to role permissions.
 11. Authorization failures must not expose information about resources in another organization.
 12. The same authorization rules apply regardless of whether a request originates from the web application or another HTTP client.
@@ -65,6 +65,7 @@ Organization membership has one of the following states:
 | ---------- | -------------------------------------------------------- |
 | `ACTIVE`   | User can access the organization according to their role |
 | `DISABLED` | User cannot access organization resources                |
+| `PENDING`  | User has requested access but cannot access organization resources |
 
 A disabled membership overrides role permissions.
 
